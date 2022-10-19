@@ -29,7 +29,6 @@ client.on("messageCreate", message => {
   if(!message.content.toLowerCase().startsWith(prefix)) return;
   
   if(args.shift().toLowerCase() === "play"){
-    console.log(message)
     client.DisTube.play(message.member.voice.channel, args.join(" "),{
       member: message.member,
       textChannel: message.channel,
