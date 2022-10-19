@@ -52,39 +52,33 @@ client.on("messageCreate", (message) => {
 
   if (argsFormatted === "pause") {
     client.DisTube.pause(message);
-    const pausedEmbed = new EmbedBuilder()
-      .setColor("#CC3333")
-      .setTitle("Musica pausada!")
-      .setThumbnail(currentSound.thumbnail)
-      .addFields({
-        name: currentSound.name,
-        value:
-          `Duração: ${currentSound.formattedDuration} \n` +
-          `Url: ${currentSound.url} \n` +
-          `Views: ${currentSound.views} \n`,
-        inline: true,
-      })
-      .setTimestamp();
-    message.reply({ embeds: [pausedEmbed] });
+    message.reply(
+      createEmbeds(
+        "#CC3333",
+        "Musica pausada!",
+        currentSound.thumbnail,
+        currentSound.name,
+        currentSound.formattedDuration,
+        currentSound.url,
+        currentSound.views
+      )
+    );
     message.react("⏸");
   }
 
   if (argsFormatted === "resume") {
     client.DisTube.resume(message);
-    const resumeEmbed = new EmbedBuilder()
-      .setColor("#0EF907")
-      .setTitle("Continuando")
-      .setThumbnail(currentSound.thumbnail)
-      .addFields({
-        name: currentSound.name,
-        value:
-          `Duração: ${currentSound.formattedDuration} \n` +
-          `Url: ${currentSound.url} \n` +
-          `Views: ${currentSound.views} \n`,
-        inline: true,
-      })
-      .setTimestamp();
-    message.reply({ embeds: [resumeEmbed] });
+    message.reply(
+      createEmbeds(
+        "#0EF907",
+        "Continuando",
+        currentSound.thumbnail,
+        currentSound.name,
+        currentSound.formattedDuration,
+        currentSound.url,
+        currentSound.views
+      )
+    );
     message.react("⏯");
   }
 
@@ -108,3 +102,18 @@ client.on("messageCreate", (message) => {
 });
 
 client.login(process.env.TOKEN);
+
+function createEmbeds(color, title, thumbnail, name, duration, url, views) {
+  const pausedEmbed = new EmbedBuilder()
+    .setColor(color)
+    .setTitle(title)
+    .setThumbnail(thumbnail)
+    .addFields({
+      name: name,
+      value:
+        `Duração: ${duration} \n` + `Url: ${url} \n` + `Views: ${views} \n`,
+      inline: false,
+    })
+    .setTimestamp();
+  return { embeds: [pausedEmbed] };
+}
